@@ -79,12 +79,14 @@ feature1 = off_train[(off_train.date>='20160101')&(off_train.date<='20160413')|(
 #for dataset3
 t = dataset3[['user_id']]
 t['this_month_user_receive_all_coupon_count'] = 1
-t = t.groupby('user_id').agg('sum').reset_index()
+t = t.groupby('user_id').agg('sum').reset_index()   #恢复成正常DataFrame格式
 
 t1 = dataset3[['user_id','coupon_id']]
 t1['this_month_user_receive_same_coupon_count'] = 1
 t1 = t1.groupby(['user_id','coupon_id']).agg('sum').reset_index()
 
+
+#t2特征不太清楚
 t2 = dataset3[['user_id','coupon_id','date_received']]
 t2.date_received = t2.date_received.astype('str')
 t2 = t2.groupby(['user_id','coupon_id'])['date_received'].agg(lambda x:':'.join(x)).reset_index()
